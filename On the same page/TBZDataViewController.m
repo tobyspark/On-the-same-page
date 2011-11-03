@@ -10,7 +10,7 @@
 
 @implementation TBZDataViewController
 
-@synthesize dataLabel = _dataLabel;
+@synthesize dataImageView = _dataImageView;
 @synthesize dataObject = _dataObject;
 
 - (void)didReceiveMemoryWarning
@@ -37,7 +37,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.dataLabel.text = [self.dataObject description];
+    self.dataImageView.image = self.dataObject;
 }
 
 - (void)viewDidAppear:(BOOL)animated

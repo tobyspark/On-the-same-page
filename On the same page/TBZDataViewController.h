@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface TBZDataViewController : UIViewController
-@property (strong, nonatomic) IBOutlet UILabel *dataLabel;
-@property (strong, nonatomic) id dataObject;
+@property (strong, nonatomic)   IBOutlet UIImageView *dataImageView;
+@property (strong, nonatomic)   id                  dataObject;
+
 @end

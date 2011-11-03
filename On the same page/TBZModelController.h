@@ -13,4 +13,5 @@
 @interface TBZModelController : NSObject <UIPageViewControllerDataSource>
 - (TBZDataViewController *)viewControllerAtIndex:(NSUInteger)index storyboard:(UIStoryboard *)storyboard;
 - (NSUInteger)indexOfViewController:(TBZDataViewController *)viewController;
+- (NSUInteger)pageCount;
 @end

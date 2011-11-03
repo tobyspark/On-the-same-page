@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A62F32251460478900E3378B /* TCPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = A62F32241460478900E3378B /* TCPServer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A63831A31461A09500908537 /* TBZPageSpreadView.m in Sources */ = {isa = PBXBuildFile; fileRef = A63831A21461A09500908537 /* TBZPageSpreadView.m */; };
+		A63831A81461C78000908537 /* pageIcon-Highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = A63831A51461C78000908537 /* pageIcon-Highlighted.png */; };
+		A63831A91461C78000908537 /* pageIcon-Normal.png in Resources */ = {isa = PBXBuildFile; fileRef = A63831A61461C78000908537 /* pageIcon-Normal.png */; };
+		A63831AA1461C78000908537 /* pageIcon-Viewer.png in Resources */ = {isa = PBXBuildFile; fileRef = A63831A71461C78000908537 /* pageIcon-Viewer.png */; };
 		A6977BF5144F470500907B69 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6977BF4144F470500907B69 /* UIKit.framework */; };
 		A6977BF7144F470500907B69 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6977BF6144F470500907B69 /* Foundation.framework */; };
 		A6977BF9144F470500907B69 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6977BF8144F470500907B69 /* CoreGraphics.framework */; };
@@ -17,26 +22,35 @@
 		A6977C0B144F470500907B69 /* TBZDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6977C0A144F470500907B69 /* TBZDataViewController.m */; };
 		A6977C0E144F470500907B69 /* TBZModelController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6977C0D144F470500907B69 /* TBZModelController.m */; };
 		A6977C11144F470500907B69 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A6977C0F144F470500907B69 /* MainStoryboard.storyboard */; };
+		A6977C18144F617E00907B69 /* slideImages in Resources */ = {isa = PBXBuildFile; fileRef = A6977C17144F617E00907B69 /* slideImages */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A62F32231460478900E3378B /* TCPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCPServer.h; sourceTree = "<group>"; };
+		A62F32241460478900E3378B /* TCPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCPServer.m; sourceTree = "<group>"; };
+		A63831A11461A09500908537 /* TBZPageSpreadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBZPageSpreadView.h; sourceTree = "<group>"; };
+		A63831A21461A09500908537 /* TBZPageSpreadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBZPageSpreadView.m; sourceTree = "<group>"; };
+		A63831A51461C78000908537 /* pageIcon-Highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pageIcon-Highlighted.png"; sourceTree = "<group>"; };
+		A63831A61461C78000908537 /* pageIcon-Normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pageIcon-Normal.png"; sourceTree = "<group>"; };
+		A63831A71461C78000908537 /* pageIcon-Viewer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pageIcon-Viewer.png"; sourceTree = "<group>"; };
 		A6977BF0144F470500907B69 /* On the same page.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "On the same page.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6977BF4144F470500907B69 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A6977BF6144F470500907B69 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A6977BF8144F470500907B69 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		A6977BFC144F470500907B69 /* On the same page-Info.plist */ = {isa = PBXFileReference; path = "On the same page-Info.plist"; sourceTree = "<group>"; };
+		A6977BFC144F470500907B69 /* On the same page-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "On the same page-Info.plist"; sourceTree = "<group>"; };
 		A6977BFE144F470500907B69 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A6977C00144F470500907B69 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		A6977C02144F470500907B69 /* On the same page-Prefix.pch */ = {isa = PBXFileReference; path = "On the same page-Prefix.pch"; sourceTree = "<group>"; };
-		A6977C03144F470500907B69 /* TBZAppDelegate.h */ = {isa = PBXFileReference; path = TBZAppDelegate.h; sourceTree = "<group>"; };
+		A6977C02144F470500907B69 /* On the same page-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "On the same page-Prefix.pch"; sourceTree = "<group>"; };
+		A6977C03144F470500907B69 /* TBZAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TBZAppDelegate.h; sourceTree = "<group>"; };
 		A6977C04144F470500907B69 /* TBZAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TBZAppDelegate.m; sourceTree = "<group>"; };
-		A6977C06144F470500907B69 /* TBZRootViewController.h */ = {isa = PBXFileReference; path = TBZRootViewController.h; sourceTree = "<group>"; };
+		A6977C06144F470500907B69 /* TBZRootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TBZRootViewController.h; sourceTree = "<group>"; };
 		A6977C07144F470500907B69 /* TBZRootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TBZRootViewController.m; sourceTree = "<group>"; };
-		A6977C09144F470500907B69 /* TBZDataViewController.h */ = {isa = PBXFileReference; path = TBZDataViewController.h; sourceTree = "<group>"; };
+		A6977C09144F470500907B69 /* TBZDataViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TBZDataViewController.h; sourceTree = "<group>"; };
 		A6977C0A144F470500907B69 /* TBZDataViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TBZDataViewController.m; sourceTree = "<group>"; };
-		A6977C0C144F470500907B69 /* TBZModelController.h */ = {isa = PBXFileReference; path = TBZModelController.h; sourceTree = "<group>"; };
+		A6977C0C144F470500907B69 /* TBZModelController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TBZModelController.h; sourceTree = "<group>"; };
 		A6977C0D144F470500907B69 /* TBZModelController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TBZModelController.m; sourceTree = "<group>"; };
 		A6977C10144F470500907B69 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		A6977C17144F617E00907B69 /* slideImages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = slideImages; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +67,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A62F32261460478E00E3378B /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				A62F32231460478900E3378B /* TCPServer.h */,
+				A62F32241460478900E3378B /* TCPServer.m */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
 		A6977BE5144F470400907B69 = {
 			isa = PBXGroup;
 			children = (
@@ -91,7 +114,10 @@
 				A6977C0A144F470500907B69 /* TBZDataViewController.m */,
 				A6977C0C144F470500907B69 /* TBZModelController.h */,
 				A6977C0D144F470500907B69 /* TBZModelController.m */,
+				A63831A11461A09500908537 /* TBZPageSpreadView.h */,
+				A63831A21461A09500908537 /* TBZPageSpreadView.m */,
 				A6977C0F144F470500907B69 /* MainStoryboard.storyboard */,
+				A62F32261460478E00E3378B /* Support */,
 				A6977BFB144F470500907B69 /* Supporting Files */,
 			);
 			path = "On the same page";
@@ -100,10 +126,14 @@
 		A6977BFB144F470500907B69 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A6977C17144F617E00907B69 /* slideImages */,
 				A6977BFC144F470500907B69 /* On the same page-Info.plist */,
 				A6977BFD144F470500907B69 /* InfoPlist.strings */,
 				A6977C00144F470500907B69 /* main.m */,
 				A6977C02144F470500907B69 /* On the same page-Prefix.pch */,
+				A63831A51461C78000908537 /* pageIcon-Highlighted.png */,
+				A63831A61461C78000908537 /* pageIcon-Normal.png */,
+				A63831A71461C78000908537 /* pageIcon-Viewer.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -160,6 +190,10 @@
 			files = (
 				A6977BFF144F470500907B69 /* InfoPlist.strings in Resources */,
 				A6977C11144F470500907B69 /* MainStoryboard.storyboard in Resources */,
+				A6977C18144F617E00907B69 /* slideImages in Resources */,
+				A63831A81461C78000908537 /* pageIcon-Highlighted.png in Resources */,
+				A63831A91461C78000908537 /* pageIcon-Normal.png in Resources */,
+				A63831AA1461C78000908537 /* pageIcon-Viewer.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,6 +209,8 @@
 				A6977C08144F470500907B69 /* TBZRootViewController.m in Sources */,
 				A6977C0B144F470500907B69 /* TBZDataViewController.m in Sources */,
 				A6977C0E144F470500907B69 /* TBZModelController.m in Sources */,
+				A62F32251460478900E3378B /* TCPServer.m in Sources */,
+				A63831A31461A09500908537 /* TBZPageSpreadView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,6 +324,7 @@
 				A6977C16144F470600907B69 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -32,8 +32,18 @@
     self = [super init];
     if (self) {
         // Create the data model.
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        _pageData = [[dateFormatter monthSymbols] copy];
+        
+        NSArray *slidePaths = [[NSBundle mainBundle] pathsForResourcesOfType:@"" inDirectory:@"slideImages"];
+        
+        NSMutableArray *slideArray = [NSMutableArray array];
+        
+        for (NSString *path in slidePaths)
+        {
+            [slideArray addObject:[UIImage imageWithContentsOfFile:path]];
+        }
+        
+        _pageData = [NSArray arrayWithArray:slideArray];
+        
     }
     return self;
 }
@@ -58,6 +68,11 @@
      For simplicity, this implementation uses a static array of model objects and the view controller stores the model object; you can therefore use the model object to identify the index.
      */
     return [self.pageData indexOfObject:viewController.dataObject];
+}
+
+- (NSUInteger)pageCount
+{
+    return [self.pageData count];
 }
 
 #pragma mark - Page View Controller Data Source

@@ -8,13 +8,52 @@
 
 #import "TBZAppDelegate.h"
 
+// The Bonjour application protocol, which must:
+// 1) be no longer than 14 characters
+// 2) contain only lower-case letters, digits, and hyphens
+// 3) begin and end with lower-case letter or digit
+// It should also be descriptive and human-readable
+// See the following for more information:
+#define kTBZAppIdentifier @"tbz-onsamepage"
+
 @implementation TBZAppDelegate
 
 @synthesize window = _window;
 
+@synthesize server = _server;
+@synthesize inStream = _inStream;
+@synthesize outStream = _outStream;
+@synthesize inReady = _inReady;
+@synthesize outReady = _outReady;
+
+- (void) _showAlert:(NSString *)title
+{
+	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:@"Check your networking configuration." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+	[alertView show];
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    // Setup Networking
+    self.server = [TCPServer new];
+	[self.server setDelegate:self];
+	NSError *error = nil;
+	if(self.server == nil || ![self.server start:&error]) {
+		if (error == nil) {
+			NSLog(@"Failed creating server: Server instance is nil");
+		} else {
+            NSLog(@"Failed creating server: %@", error);
+		}
+		[self _showAlert:@"Failed creating server"];
+		return NO;
+	}
+	
+	//Start advertising to clients, passing nil for the name to tell Bonjour to pick use default name
+	if(![_server enableBonjourWithDomain:@"local" applicationProtocol:[TCPServer bonjourTypeFromIdentifier:kTBZAppIdentifier] name:nil]) {
+		[self _showAlert:@"Failed advertising server"];
+		return NO;
+	}
+    
     return YES;
 }
 
@@ -55,6 +94,13 @@
      Save data if appropriate.
      See also applicationDidEnterBackground:.
      */
+}
+
+# pragma mark TCPSever Delegate Methods
+
+- (void) didAcceptConnectionForServer:(TCPServer*)server inputStream:(NSInputStream *)istr outputStream:(NSOutputStream *)ostr
+{
+    NSLog(@"didAcceptConnectionForServer");
 }
 
 @end

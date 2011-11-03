@@ -7,9 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TCPServer.h"
 
-@interface TBZAppDelegate : UIResponder <UIApplicationDelegate>
+@interface TBZAppDelegate : UIResponder <UIApplicationDelegate, TCPServerDelegate, NSStreamDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+
+@property (strong, nonatomic)   TCPServer			*server;
+@property (strong, nonatomic)   NSInputStream		*inStream;
+@property (strong, nonatomic)   NSOutputStream		*outStream;
+@property ()                    BOOL				inReady;
+@property ()                    BOOL				outReady;
 
 @end

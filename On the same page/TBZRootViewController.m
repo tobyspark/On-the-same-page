@@ -12,14 +12,18 @@
 
 #import "TBZDataViewController.h"
 
+#import "TBZPageSpreadView.h"
+
 @interface TBZRootViewController ()
 @property (readonly, strong, nonatomic) TBZModelController *modelController;
+@property (readonly, strong, nonatomic) TBZPageSpreadViewController *pageSpreadViewController;
 @end
 
 @implementation TBZRootViewController
 
 @synthesize pageViewController = _pageViewController;
 @synthesize modelController = _modelController;
+@synthesize pageSpreadViewController = _pageSpreadViewController;
 
 - (void)didReceiveMemoryWarning
 {
@@ -32,9 +36,27 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    
+    // TASK: Divide up screen
+    
+    CGRect pageSpreadRect;
+    CGRect pageViewRect;
+    CGRectDivide(self.view.bounds, &pageSpreadRect, &pageViewRect, 20, CGRectMaxYEdge);
+    
+    NSLog(@"x: %f, y: %f, w:%f, h:%f", pageSpreadRect.origin.x, pageSpreadRect.origin.y, pageSpreadRect.size.width, pageSpreadRect.size.height);
+    
+    // TASK: Setup Page Spread
+    
+    _pageSpreadViewController = [[TBZPageSpreadViewController alloc] init];
+    [self addChildViewController:self.pageSpreadViewController];
+    [self.view addSubview:self.pageSpreadViewController.view]; 
+    
+    [self.pageSpreadViewController.view setFrame:pageSpreadRect];
+    [self.pageSpreadViewController setPageCount:[self.modelController pageCount]];
+
     // Configure the page view controller and add it as a child view controller.
-    self.pageViewController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStylePageCurl navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
+    NSDictionary *options = [NSDictionary dictionaryWithObject:[NSNumber numberWithInteger:UIPageViewControllerSpineLocationMin] forKey:UIPageViewControllerOptionSpineLocationKey];
+    self.pageViewController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStylePageCurl navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:options];
     self.pageViewController.delegate = self;
 
     TBZDataViewController *startingViewController = [self.modelController viewControllerAtIndex:0 storyboard:self.storyboard];
@@ -45,10 +67,6 @@
 
     [self addChildViewController:self.pageViewController];
     [self.view addSubview:self.pageViewController.view];
-
-    // Set the page view controller's bounds using an inset rect so that self's view is visible around the edges of the pages.
-    CGRect pageViewRect = self.view.bounds;
-    pageViewRect = CGRectInset(pageViewRect, 40.0, 40.0);
     self.pageViewController.view.frame = pageViewRect;
 
     [self.pageViewController didMoveToParentViewController:self];    
@@ -90,6 +108,16 @@
     return YES;
 }
 
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration
+{
+    CGRect pageSpreadRect;
+    CGRect pageViewRect;
+    CGRectDivide(self.view.bounds, &pageSpreadRect, &pageViewRect, 20, CGRectMaxYEdge);
+    
+    [self.pageViewController.view setFrame:pageViewRect];
+    [self.pageSpreadViewController.view setFrame:pageSpreadRect];
+}
+
 - (TBZModelController *)modelController
 {
     /*
@@ -104,41 +132,44 @@
 
 #pragma mark - UIPageViewController delegate methods
 
-/*
+
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed
 {
-    
-}
- */
-
-- (UIPageViewControllerSpineLocation)pageViewController:(UIPageViewController *)pageViewController spineLocationForInterfaceOrientation:(UIInterfaceOrientation)orientation
-{
-    if (UIInterfaceOrientationIsPortrait(orientation)) {
-        // In portrait orientation: Set the spine position to "min" and the page view controller's view controllers array to contain just one view controller. Setting the spine position to 'UIPageViewControllerSpineLocationMid' in landscape orientation sets the doubleSided property to YES, so set it to NO here.
-        UIViewController *currentViewController = [self.pageViewController.viewControllers objectAtIndex:0];
-        NSArray *viewControllers = [NSArray arrayWithObject:currentViewController];
-        [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:NULL];
-        
-        self.pageViewController.doubleSided = NO;
-        return UIPageViewControllerSpineLocationMin;
+    if (completed)
+    {
+        [self.pageSpreadViewController setCurrentPage:[self.modelController indexOfViewController:[pageViewController.viewControllers objectAtIndex:0]]];
     }
-
-    // In landscape orientation: Set set the spine location to "mid" and the page view controller's view controllers array to contain two view controllers. If the current page is even, set it to contain the current and next view controllers; if it is odd, set the array to contain the previous and current view controllers.
-    TBZDataViewController *currentViewController = [self.pageViewController.viewControllers objectAtIndex:0];
-    NSArray *viewControllers = nil;
-
-    NSUInteger indexOfCurrentViewController = [self.modelController indexOfViewController:currentViewController];
-    if (indexOfCurrentViewController == 0 || indexOfCurrentViewController % 2 == 0) {
-        UIViewController *nextViewController = [self.modelController pageViewController:self.pageViewController viewControllerAfterViewController:currentViewController];
-        viewControllers = [NSArray arrayWithObjects:currentViewController, nextViewController, nil];
-    } else {
-        UIViewController *previousViewController = [self.modelController pageViewController:self.pageViewController viewControllerBeforeViewController:currentViewController];
-        viewControllers = [NSArray arrayWithObjects:previousViewController, currentViewController, nil];
-    }
-    [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:NULL];
-
-
-    return UIPageViewControllerSpineLocationMid;
 }
+
+
+//- (UIPageViewControllerSpineLocation)pageViewController:(UIPageViewController *)pageViewController spineLocationForInterfaceOrientation:(UIInterfaceOrientation)orientation
+//{
+//    if (UIInterfaceOrientationIsPortrait(orientation)) {
+//        // In portrait orientation: Set the spine position to "min" and the page view controller's view controllers array to contain just one view controller. Setting the spine position to 'UIPageViewControllerSpineLocationMid' in landscape orientation sets the doubleSided property to YES, so set it to NO here.
+//        UIViewController *currentViewController = [self.pageViewController.viewControllers objectAtIndex:0];
+//        NSArray *viewControllers = [NSArray arrayWithObject:currentViewController];
+//        [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:NULL];
+//        
+//        self.pageViewController.doubleSided = NO;
+//        return UIPageViewControllerSpineLocationMin;
+//    }
+//
+//    // In landscape orientation: Set set the spine location to "mid" and the page view controller's view controllers array to contain two view controllers. If the current page is even, set it to contain the current and next view controllers; if it is odd, set the array to contain the previous and current view controllers.
+//    TBZDataViewController *currentViewController = [self.pageViewController.viewControllers objectAtIndex:0];
+//    NSArray *viewControllers = nil;
+//
+//    NSUInteger indexOfCurrentViewController = [self.modelController indexOfViewController:currentViewController];
+//    if (indexOfCurrentViewController == 0 || indexOfCurrentViewController % 2 == 0) {
+//        UIViewController *nextViewController = [self.modelController pageViewController:self.pageViewController viewControllerAfterViewController:currentViewController];
+//        viewControllers = [NSArray arrayWithObjects:currentViewController, nextViewController, nil];
+//    } else {
+//        UIViewController *previousViewController = [self.modelController pageViewController:self.pageViewController viewControllerBeforeViewController:currentViewController];
+//        viewControllers = [NSArray arrayWithObjects:previousViewController, currentViewController, nil];
+//    }
+//    [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:NULL];
+//
+//
+//    return UIPageViewControllerSpineLocationMid;
+//}
 
 @end
