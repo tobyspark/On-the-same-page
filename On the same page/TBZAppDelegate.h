@@ -7,16 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TCPServer.h"
+#import "GCDAsyncSocket.h"
+#import "TBZRootViewController.h"
 
-@interface TBZAppDelegate : UIResponder <UIApplicationDelegate, TCPServerDelegate, NSStreamDelegate>
+@interface TBZAppDelegate : UIResponder <UIApplicationDelegate, GCDAsyncSocketDelegate, NSNetServiceBrowserDelegate, NSNetServiceDelegate>
+{
+    NSNetService *serverService;
+	GCDAsyncSocket *serverSocket;
+    
+    NSNetServiceBrowser *netServiceBrowser;
+    NSMutableDictionary *netServicesFound;
+}
 
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, atomic) NSMutableArray *connectedSockets;
+@property (weak, nonatomic) TBZPageSpreadViewController *pageSpread;
 
-@property (strong, nonatomic)   TCPServer			*server;
-@property (strong, nonatomic)   NSInputStream		*inStream;
-@property (strong, nonatomic)   NSOutputStream		*outStream;
-@property ()                    BOOL				inReady;
-@property ()                    BOOL				outReady;
+- (void)notifyOfCurrentPage:(NSUInteger)page;
 
 @end

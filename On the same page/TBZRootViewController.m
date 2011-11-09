@@ -9,14 +9,13 @@
 #import "TBZRootViewController.h"
 
 #import "TBZModelController.h"
-
 #import "TBZDataViewController.h"
-
 #import "TBZPageSpreadView.h"
+
+#import "TBZAppDelegate.h"
 
 @interface TBZRootViewController ()
 @property (readonly, strong, nonatomic) TBZModelController *modelController;
-@property (readonly, strong, nonatomic) TBZPageSpreadViewController *pageSpreadViewController;
 @end
 
 @implementation TBZRootViewController
@@ -137,7 +136,13 @@
 {
     if (completed)
     {
-        [self.pageSpreadViewController setCurrentPage:[self.modelController indexOfViewController:[pageViewController.viewControllers objectAtIndex:0]]];
+        NSUInteger page = [self.modelController indexOfViewController:[pageViewController.viewControllers objectAtIndex:0]];
+        
+        [self.pageSpreadViewController setCurrentPage:page];
+        
+        TBZAppDelegate* appDelegate = (TBZAppDelegate*)[[UIApplication sharedApplication] delegate];
+        
+        [appDelegate notifyOfCurrentPage:page];
     }
 }
 

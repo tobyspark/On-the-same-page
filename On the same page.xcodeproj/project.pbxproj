@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A62F32251460478900E3378B /* TCPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = A62F32241460478900E3378B /* TCPServer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A63831A31461A09500908537 /* TBZPageSpreadView.m in Sources */ = {isa = PBXBuildFile; fileRef = A63831A21461A09500908537 /* TBZPageSpreadView.m */; };
 		A63831A81461C78000908537 /* pageIcon-Highlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = A63831A51461C78000908537 /* pageIcon-Highlighted.png */; };
 		A63831A91461C78000908537 /* pageIcon-Normal.png in Resources */ = {isa = PBXBuildFile; fileRef = A63831A61461C78000908537 /* pageIcon-Normal.png */; };
@@ -23,11 +22,16 @@
 		A6977C0E144F470500907B69 /* TBZModelController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6977C0D144F470500907B69 /* TBZModelController.m */; };
 		A6977C11144F470500907B69 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A6977C0F144F470500907B69 /* MainStoryboard.storyboard */; };
 		A6977C18144F617E00907B69 /* slideImages in Resources */ = {isa = PBXBuildFile; fileRef = A6977C17144F617E00907B69 /* slideImages */; };
+		A6A6EF08146A8BFE00FD2DF4 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = A6A6EF07146A8BFE00FD2DF4 /* GCDAsyncSocket.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A6A6EF13146A8EDC00FD2DF4 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = A6A6EF0A146A8EDC00FD2DF4 /* DDAbstractDatabaseLogger.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A6A6EF14146A8EDC00FD2DF4 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = A6A6EF0C146A8EDC00FD2DF4 /* DDASLLogger.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A6A6EF15146A8EDC00FD2DF4 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = A6A6EF0E146A8EDC00FD2DF4 /* DDFileLogger.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A6A6EF16146A8EDC00FD2DF4 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = A6A6EF10146A8EDC00FD2DF4 /* DDLog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A6A6EF17146A8EDC00FD2DF4 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = A6A6EF12146A8EDC00FD2DF4 /* DDTTYLogger.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		A6A6EF1E146A93C200FD2DF4 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A6EF1D146A93C200FD2DF4 /* CFNetwork.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A62F32231460478900E3378B /* TCPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCPServer.h; sourceTree = "<group>"; };
-		A62F32241460478900E3378B /* TCPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCPServer.m; sourceTree = "<group>"; };
 		A63831A11461A09500908537 /* TBZPageSpreadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBZPageSpreadView.h; sourceTree = "<group>"; };
 		A63831A21461A09500908537 /* TBZPageSpreadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBZPageSpreadView.m; sourceTree = "<group>"; };
 		A63831A51461C78000908537 /* pageIcon-Highlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pageIcon-Highlighted.png"; sourceTree = "<group>"; };
@@ -51,6 +55,19 @@
 		A6977C0D144F470500907B69 /* TBZModelController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TBZModelController.m; sourceTree = "<group>"; };
 		A6977C10144F470500907B69 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		A6977C17144F617E00907B69 /* slideImages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = slideImages; sourceTree = "<group>"; };
+		A6A6EF06146A8BFE00FD2DF4 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
+		A6A6EF07146A8BFE00FD2DF4 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
+		A6A6EF09146A8EDC00FD2DF4 /* DDAbstractDatabaseLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAbstractDatabaseLogger.h; sourceTree = "<group>"; };
+		A6A6EF0A146A8EDC00FD2DF4 /* DDAbstractDatabaseLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAbstractDatabaseLogger.m; sourceTree = "<group>"; };
+		A6A6EF0B146A8EDC00FD2DF4 /* DDASLLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDASLLogger.h; sourceTree = "<group>"; };
+		A6A6EF0C146A8EDC00FD2DF4 /* DDASLLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDASLLogger.m; sourceTree = "<group>"; };
+		A6A6EF0D146A8EDC00FD2DF4 /* DDFileLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDFileLogger.h; sourceTree = "<group>"; };
+		A6A6EF0E146A8EDC00FD2DF4 /* DDFileLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDFileLogger.m; sourceTree = "<group>"; };
+		A6A6EF0F146A8EDC00FD2DF4 /* DDLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDLog.h; sourceTree = "<group>"; };
+		A6A6EF10146A8EDC00FD2DF4 /* DDLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDLog.m; sourceTree = "<group>"; };
+		A6A6EF11146A8EDC00FD2DF4 /* DDTTYLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDTTYLogger.h; sourceTree = "<group>"; };
+		A6A6EF12146A8EDC00FD2DF4 /* DDTTYLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTTYLogger.m; sourceTree = "<group>"; };
+		A6A6EF1D146A93C200FD2DF4 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6A6EF1E146A93C200FD2DF4 /* CFNetwork.framework in Frameworks */,
 				A6977BF5144F470500907B69 /* UIKit.framework in Frameworks */,
 				A6977BF7144F470500907B69 /* Foundation.framework in Frameworks */,
 				A6977BF9144F470500907B69 /* CoreGraphics.framework in Frameworks */,
@@ -70,8 +88,9 @@
 		A62F32261460478E00E3378B /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				A62F32231460478900E3378B /* TCPServer.h */,
-				A62F32241460478900E3378B /* TCPServer.m */,
+				A6A6EF06146A8BFE00FD2DF4 /* GCDAsyncSocket.h */,
+				A6A6EF07146A8BFE00FD2DF4 /* GCDAsyncSocket.m */,
+				A6A6EF18146A8EE300FD2DF4 /* Logging */,
 			);
 			name = Support;
 			sourceTree = "<group>";
@@ -99,6 +118,7 @@
 				A6977BF4144F470500907B69 /* UIKit.framework */,
 				A6977BF6144F470500907B69 /* Foundation.framework */,
 				A6977BF8144F470500907B69 /* CoreGraphics.framework */,
+				A6A6EF1D146A93C200FD2DF4 /* CFNetwork.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -136,6 +156,23 @@
 				A63831A71461C78000908537 /* pageIcon-Viewer.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A6A6EF18146A8EE300FD2DF4 /* Logging */ = {
+			isa = PBXGroup;
+			children = (
+				A6A6EF09146A8EDC00FD2DF4 /* DDAbstractDatabaseLogger.h */,
+				A6A6EF0A146A8EDC00FD2DF4 /* DDAbstractDatabaseLogger.m */,
+				A6A6EF0B146A8EDC00FD2DF4 /* DDASLLogger.h */,
+				A6A6EF0C146A8EDC00FD2DF4 /* DDASLLogger.m */,
+				A6A6EF0D146A8EDC00FD2DF4 /* DDFileLogger.h */,
+				A6A6EF0E146A8EDC00FD2DF4 /* DDFileLogger.m */,
+				A6A6EF0F146A8EDC00FD2DF4 /* DDLog.h */,
+				A6A6EF10146A8EDC00FD2DF4 /* DDLog.m */,
+				A6A6EF11146A8EDC00FD2DF4 /* DDTTYLogger.h */,
+				A6A6EF12146A8EDC00FD2DF4 /* DDTTYLogger.m */,
+			);
+			name = Logging;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,8 +246,13 @@
 				A6977C08144F470500907B69 /* TBZRootViewController.m in Sources */,
 				A6977C0B144F470500907B69 /* TBZDataViewController.m in Sources */,
 				A6977C0E144F470500907B69 /* TBZModelController.m in Sources */,
-				A62F32251460478900E3378B /* TCPServer.m in Sources */,
 				A63831A31461A09500908537 /* TBZPageSpreadView.m in Sources */,
+				A6A6EF08146A8BFE00FD2DF4 /* GCDAsyncSocket.m in Sources */,
+				A6A6EF13146A8EDC00FD2DF4 /* DDAbstractDatabaseLogger.m in Sources */,
+				A6A6EF14146A8EDC00FD2DF4 /* DDASLLogger.m in Sources */,
+				A6A6EF15146A8EDC00FD2DF4 /* DDFileLogger.m in Sources */,
+				A6A6EF16146A8EDC00FD2DF4 /* DDLog.m in Sources */,
+				A6A6EF17146A8EDC00FD2DF4 /* DDTTYLogger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -2,6 +2,11 @@
 
 #import "TBZPageSpreadView.h"
 
+@interface TBZPageSpreadViewController (Private) 
+- (void)layoutSubviews;
+- (void) setViewerAlpha;
+@end
+
 @implementation TBZPageSpreadViewController
 
 - (void)viewDidLoad
@@ -9,19 +14,12 @@
     [super viewDidLoad];
     
     viewers = [NSMutableDictionary dictionary];
-}
-
-- (void)layoutSubviews // This is not the UIView method, but yes, guess where it was first.
-{
-    NSUInteger count = [pages count];
-    CGFloat separationWidth = self.view.bounds.size.width / (count + 1);
     
-    for (NSUInteger p=0; p < count; p++) 
+    TBZAppDelegate *appDelegate = (TBZAppDelegate*)[[UIApplication sharedApplication] delegate];
+    
+    if ([appDelegate respondsToSelector:@selector(setPageSpread:)])
     {
-        CGFloat centerX = floorf((p + 1) * separationWidth);
-        CGFloat centerY = floorf(self.view.bounds.size.height / 2);
-        
-        [[pages objectAtIndex:p] setCenter:CGPointMake(centerX, centerY)];
+        [appDelegate setPageSpread:self];
     }
 }
 
@@ -68,6 +66,8 @@
     
     [viewers setObject:viewerImageView forKey:viewerID];
     
+    [self setViewerAlpha];
+    
     [self setPosition:0 forViewer:viewerID];
 }
 
@@ -75,6 +75,8 @@
 {
     [[viewers objectForKey:@"viewerID"] removeFromSuperview];
     [viewers removeObjectForKey:@"viewerID"];
+    
+    [self setViewerAlpha];
 }
 
 - (void)setCurrentPage:(NSUInteger)position
@@ -88,12 +90,20 @@
 
 - (void)setPosition:(NSUInteger)position forViewer:(NSString*)viewerID
 {
+    NSLog(@"setPosition: %d forViewer: %@", position, viewerID);
+    
     if (position < [pages count])
     {
+        UIView* view = [viewers objectForKey:viewerID];
+        
+        // Set tag so we can keep trace, ie. on orientation change
+        [view setTag:position];
+        
+        // Animate to new position
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:1];
         
-        [[viewers objectForKey:viewerID] setCenter:[[pages objectAtIndex:position] center]];
+        [view setCenter:[[pages objectAtIndex:position] center]];
         
         [UIView commitAnimations];
     }
@@ -101,6 +111,40 @@
     {
         NSLog(@"Attempted to update to page beyond loaded pages");
     }
+}
+
+- (void)layoutSubviews // This is not the UIView method, but yes, guess where it was first.
+{
+    NSUInteger count = [pages count];
+    CGFloat separationWidth = self.view.bounds.size.width / (count + 1);
+    
+    for (NSUInteger p=0; p < count; p++) 
+    {
+        CGFloat centerX = floorf((p + 1) * separationWidth);
+        CGFloat centerY = floorf(self.view.bounds.size.height / 2);
+        
+        [[pages objectAtIndex:p] setCenter:CGPointMake(centerX, centerY)];
+    }
+    
+    [viewers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) 
+    {
+        [obj setCenter:[[pages objectAtIndex:[obj tag]] center]];
+    }];
+}
+
+- (void) setViewerAlpha
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:1];
+    
+    CGFloat proportion = 1.0 / (CGFloat)MAX([viewers count], 1);
+
+    [viewers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) 
+    {
+        [obj setAlpha:proportion];
+    }];
+    
+    [UIView commitAnimations];
 }
 
 @end
