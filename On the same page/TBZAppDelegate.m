@@ -8,6 +8,7 @@
 
 #import "TBZAppDelegate.h"
 #import "TBZPageSpreadView.h"
+#import "TBZModelController.h"
 
 #import "DDLog.h"
 #import "DDTTYLogger.h"
@@ -30,7 +31,6 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 @end
 
 
-// TODO: Fade pageSpread circle as proportion of viewers
 // TODO: Remove viewer on disconnect (possibly should be putting sockets into netServicesFound dict)
 
 
@@ -38,6 +38,9 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 @implementation TBZAppDelegate
 
 @synthesize window;
+@synthesize modelController;
+@synthesize modelControllerNotes;
+@synthesize extWindow;
 @synthesize connectedSockets;
 @synthesize pageSpread;
 
@@ -107,6 +110,10 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     
     netServicesFound = [NSMutableDictionary dictionary];
     
+    // TASK: SLIDE DATA
+    [self setModelController:[[TBZModelController alloc] initWithDirectory:@"slideImages"]];
+    [(TBZRootViewController*)self.window.rootViewController setModelController:[self modelController]];
+    
     return YES;
 }
 
@@ -138,6 +145,39 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
+    
+    NSArray* screens = [UIScreen screens];
+
+    if ([screens count] > 1)
+    {
+        UIScreen* extScreen = [screens objectAtIndex:1];
+        // TODO: Select best screen mode
+        
+        if (extWindow == nil || !CGRectEqualToRect(extWindow.bounds, [extScreen bounds])) 
+        {
+            TBZRootViewController *rootViewController = (TBZRootViewController*)[self.window rootViewController];
+            TBZRootViewController *extRootViewController = [[UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil] instantiateInitialViewController];
+            
+            // Set data sources: move slides as-is to external, invoke slides-with-notes on internal.
+            [extRootViewController setModelController:[self modelController]];
+            [self setModelControllerNotes:[[TBZModelController alloc] initWithDirectory:@"slideImagesNotes"]];
+            [rootViewController setModelController:[self modelControllerNotes]];
+            
+            TBZDataViewController *startingViewController = [self.modelControllerNotes viewControllerAtIndex:0 storyboard:[UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil]];
+            NSArray *viewControllers = [NSArray arrayWithObject:startingViewController];
+            [rootViewController.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:NULL];
+            
+            rootViewController.pageViewController.dataSource = self.modelControllerNotes;
+            
+            
+            //[rootViewController.pageViewController setDataSource:[self modelControllerNotes]];
+            
+            extWindow = [[UIWindow alloc] initWithFrame:[extScreen bounds]];
+            [extWindow setScreen:extScreen];
+            [extWindow setRootViewController:extRootViewController];
+            [extWindow makeKeyAndVisible];
+        }
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -151,8 +191,23 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 #pragma mark -
 
-- (void)notifyOfCurrentPage:(NSUInteger)page
+- (void)notifyOfCurrentPage:(NSUInteger)page previousPage:(NSUInteger)oldPage
 {
+    // Duplicate View Notify
+    if ([self extWindow])
+    {
+        NSArray *viewControllers = [NSArray arrayWithObject:[self.modelController viewControllerAtIndex:page storyboard:[UIStoryboard storyboardWithName:@"mainStoryboard" bundle:nil]]];
+        UIPageViewControllerNavigationDirection direction = (page>oldPage) ? UIPageViewControllerNavigationDirectionForward : UIPageViewControllerNavigationDirectionReverse;
+        
+        TBZRootViewController* extRootViewController = (TBZRootViewController*)[self.extWindow rootViewController];
+        [extRootViewController.pageSpreadViewController setCurrentPage:page];
+        [extRootViewController.pageViewController setViewControllers:viewControllers
+                                                           direction:direction
+                                                            animated:YES 
+                                                          completion:nil];
+    }
+    
+    // Network Notify
     NSDictionary *message = [NSDictionary dictionaryWithObjectsAndKeys:
                             [NSNumber numberWithUnsignedInteger:page], @"page",
                             [serverService name], @"name",
@@ -326,6 +381,19 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 	DDLogInfo(@"Socket:DidConnectToHost: %@ Port: %hu", host, port);
 	
     // don't need to add - we build our list from incoming initiated only.
+    
+    #if !TARGET_IPHONE_SIMULATOR
+        {
+            // Backgrounding doesn't seem to be supported on the simulator yet
+            
+            [sock performBlock:^{
+                if ([sock enableBackgroundingOnSocket])
+                    DDLogInfo(@"Enabled backgrounding on socket");
+                else
+                    DDLogWarn(@"Enabling backgrounding failed!");
+            }];
+        }
+    #endif
     
     // FIXME: should only need this on incoming sockets we retain?
     [sock readDataToData:[GCDAsyncSocket CRLFData] withTimeout:-1.0 tag:0];

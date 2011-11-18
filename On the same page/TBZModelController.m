@@ -27,13 +27,13 @@
 
 @synthesize pageData = _pageData;
 
-- (id)init
+- (id)initWithDirectory:(NSString*)bundleDir
 {
     self = [super init];
     if (self) {
         // Create the data model.
         
-        NSArray *slidePaths = [[NSBundle mainBundle] pathsForResourcesOfType:@"" inDirectory:@"slideImages"];
+        NSArray *slidePaths = [[NSBundle mainBundle] pathsForResourcesOfType:@"" inDirectory:bundleDir];
         
         NSMutableArray *slideArray = [NSMutableArray array];
         

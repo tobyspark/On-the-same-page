@@ -19,10 +19,13 @@
     NSMutableDictionary *netServicesFound;
 }
 
+@property (strong, nonatomic) TBZModelController *modelController;
+@property (strong, nonatomic) TBZModelController *modelControllerNotes;
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) UIWindow *extWindow;
 @property (strong, atomic) NSMutableArray *connectedSockets;
 @property (weak, nonatomic) TBZPageSpreadViewController *pageSpread;
 
-- (void)notifyOfCurrentPage:(NSUInteger)page;
+- (void)notifyOfCurrentPage:(NSUInteger)page previousPage:(NSUInteger)oldPage;
 
 @end

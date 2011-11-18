@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 @class TBZPageSpreadViewController;
+@class TBZModelController;
 
 @interface TBZRootViewController : UIViewController <UIPageViewControllerDelegate>
 
+@property (weak, nonatomic) TBZModelController *modelController;
 @property (strong, nonatomic) UIPageViewController *pageViewController;
 @property (readonly, strong, nonatomic) TBZPageSpreadViewController *pageSpreadViewController;
 

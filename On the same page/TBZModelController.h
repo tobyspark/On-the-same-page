@@ -14,4 +14,6 @@
 - (TBZDataViewController *)viewControllerAtIndex:(NSUInteger)index storyboard:(UIStoryboard *)storyboard;
 - (NSUInteger)indexOfViewController:(TBZDataViewController *)viewController;
 - (NSUInteger)pageCount;
+
+- (id)initWithDirectory:(NSString*)bundleDir;
 @end

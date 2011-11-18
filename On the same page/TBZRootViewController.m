@@ -14,10 +14,6 @@
 
 #import "TBZAppDelegate.h"
 
-@interface TBZRootViewController ()
-@property (readonly, strong, nonatomic) TBZModelController *modelController;
-@end
-
 @implementation TBZRootViewController
 
 @synthesize pageViewController = _pageViewController;
@@ -35,7 +31,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     // TASK: Divide up screen
     
     CGRect pageSpreadRect;
@@ -72,6 +68,10 @@
 
     // Add the page view controller's gesture recognizers to the book view controller's view so that the gestures are started more easily.
     self.view.gestureRecognizers = self.pageViewController.gestureRecognizers;
+    
+    // TASK: Little tweaks
+    [self.pageSpreadViewController setCurrentPage:0];
+    
 }
 
 - (void)viewDidUnload
@@ -117,18 +117,6 @@
     [self.pageSpreadViewController.view setFrame:pageSpreadRect];
 }
 
-- (TBZModelController *)modelController
-{
-    /*
-     Return the model controller object, creating it if necessary.
-     In more complex implementations, the model controller may be passed to the view controller.
-     */
-    if (!_modelController) {
-        _modelController = [[TBZModelController alloc] init];
-    }
-    return _modelController;
-}
-
 #pragma mark - UIPageViewController delegate methods
 
 
@@ -137,12 +125,13 @@
     if (completed)
     {
         NSUInteger page = [self.modelController indexOfViewController:[pageViewController.viewControllers objectAtIndex:0]];
+        NSUInteger oldPage = [self.modelController indexOfViewController:[previousViewControllers objectAtIndex:0]];
         
         [self.pageSpreadViewController setCurrentPage:page];
         
         TBZAppDelegate* appDelegate = (TBZAppDelegate*)[[UIApplication sharedApplication] delegate];
         
-        [appDelegate notifyOfCurrentPage:page];
+        [appDelegate notifyOfCurrentPage:page previousPage:oldPage];
     }
 }
 
