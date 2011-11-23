@@ -33,6 +33,7 @@
 		A6A6EF16146A8EDC00FD2DF4 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = A6A6EF10146A8EDC00FD2DF4 /* DDLog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A6A6EF17146A8EDC00FD2DF4 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = A6A6EF12146A8EDC00FD2DF4 /* DDTTYLogger.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A6A6EF1E146A93C200FD2DF4 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A6EF1D146A93C200FD2DF4 /* CFNetwork.framework */; };
+		A6B7EB04147D1ED6008EC7CF /* TBZPeerToPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = A6B7EB03147D1ED6008EC7CF /* TBZPeerToPeer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,6 +77,8 @@
 		A6A6EF11146A8EDC00FD2DF4 /* DDTTYLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDTTYLogger.h; sourceTree = "<group>"; };
 		A6A6EF12146A8EDC00FD2DF4 /* DDTTYLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTTYLogger.m; sourceTree = "<group>"; };
 		A6A6EF1D146A93C200FD2DF4 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		A6B7EB02147D1ED6008EC7CF /* TBZPeerToPeer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBZPeerToPeer.h; sourceTree = "<group>"; };
+		A6B7EB03147D1ED6008EC7CF /* TBZPeerToPeer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBZPeerToPeer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +147,8 @@
 				A6977C0D144F470500907B69 /* TBZModelController.m */,
 				A63831A11461A09500908537 /* TBZPageSpreadView.h */,
 				A63831A21461A09500908537 /* TBZPageSpreadView.m */,
+				A6B7EB02147D1ED6008EC7CF /* TBZPeerToPeer.h */,
+				A6B7EB03147D1ED6008EC7CF /* TBZPeerToPeer.m */,
 				A6977C0F144F470500907B69 /* MainStoryboard.storyboard */,
 				A62F32261460478E00E3378B /* Support */,
 				A6977BFB144F470500907B69 /* Supporting Files */,
@@ -269,6 +274,7 @@
 				A6A6EF15146A8EDC00FD2DF4 /* DDFileLogger.m in Sources */,
 				A6A6EF16146A8EDC00FD2DF4 /* DDLog.m in Sources */,
 				A6A6EF17146A8EDC00FD2DF4 /* DDTTYLogger.m in Sources */,
+				A6B7EB04147D1ED6008EC7CF /* TBZPeerToPeer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
