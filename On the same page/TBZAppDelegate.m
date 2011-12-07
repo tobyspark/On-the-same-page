@@ -2,9 +2,11 @@
 //  TBZAppDelegate.m
 //  On the same page
 //
-//  Created by TBZ.PhD on 19/10/2011.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Created by Toby Harris on 19/10/2011.
+//  Copyright (c) 2011 Toby Harris. All rights reserved.
 //
+//  Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+
 
 #import "TBZAppDelegate.h"
 #import "TBZPageSpreadView.h"
@@ -166,6 +168,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 - (void)peerToPeerConnectionMade:(NSString*)serviceName
 {
     [self.pageSpread addViewer:serviceName];
+    [p2p sendData:[p2p lastData] to:[NSArray arrayWithObject:serviceName]];
 }
 
 - (void)peerToPeerConnectionLost:(NSString*)serviceName

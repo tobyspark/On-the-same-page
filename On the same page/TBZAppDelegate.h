@@ -2,8 +2,10 @@
 //  TBZAppDelegate.h
 //  On the same page
 //
-//  Created by TBZ.PhD on 19/10/2011.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Created by Toby Harris on 19/10/2011.
+//  Copyright (c) 2011 Toby Harris. All rights reserved.
+//
+//  Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 //
 
 #import <UIKit/UIKit.h>
@@ -17,7 +19,6 @@
 @property (strong, nonatomic) TBZModelController *modelControllerNotes;
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UIWindow *extWindow;
-
 
 @property (strong, atomic) TBZPeerToPeer *p2p;
 

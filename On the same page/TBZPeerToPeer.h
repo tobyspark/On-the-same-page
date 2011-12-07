@@ -3,7 +3,9 @@
 //  On the same page
 //
 //  Created by TBZ.PhD on 23/11/2011.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2011 Toby Harris. All rights reserved.
+//
+//  Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 //
 
 // The Bonjour application protocol, which must:
@@ -23,19 +25,21 @@
 	GCDAsyncSocket*      serverSocket;
     
     NSNetServiceBrowser* netServiceBrowser;
-    NSMutableDictionary* netServicesFound;
+    NSMutableSet*        netServicesResolving;
     
-    NSMutableArray*      connectedSockets;
+    NSMutableDictionary* connectedSockets;
     
     NSData*              EOFData;
     NSUInteger           EOFLength;
 }
 
 @property(strong, atomic) id delegate;
+@property(strong, atomic) NSData* lastData;
 
 - (BOOL)start;
 - (BOOL)stop;
 - (void)sendData:(NSData*)data;
+- (void)sendData:(NSData*)data to:(NSArray*)arrayOfServiceNames;
 - (NSString*)name;
 
 @end

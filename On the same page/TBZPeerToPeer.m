@@ -3,7 +3,9 @@
 //  On the same page
 //
 //  Created by TBZ.PhD on 23/11/2011.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2011 Toby Harris. All rights reserved.
+//
+//  Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 //
 
 #import "TBZPeerToPeer.h"
@@ -15,13 +17,10 @@
 // Log levels: off, error, warn, info, verbose
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
-@interface TBZPeerToPeer (Private)
-- (void)connectToNextAddressForServiceName:(NSString*)serviceName;
-@end
-
 @implementation TBZPeerToPeer
 
 @synthesize delegate;
+@synthesize lastData;
 
 -(id)init
 {
@@ -39,6 +38,11 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 - (BOOL)start
 {
+    // APPROACH
+    // We need to be both server and client so there's a socket at both ends. 
+    // The consequence of this is that both devices will attempt to initiate the connection.
+    // We need to then keep the first connection made and reject any subsequent.
+    
     // TASK: SERVER
     
     // Create our socket.
@@ -48,7 +52,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 	
 	// Create an array to hold accepted incoming connections.
 	
-	connectedSockets = [[NSMutableArray alloc] init];
+	connectedSockets = [[NSMutableDictionary alloc] init];
 	
 	// Now we tell the socket to accept incoming connections.
 	// We don't care what port it listens on, so we pass zero for the port number.
@@ -71,16 +75,6 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 		
 		[serverService setDelegate:self];
 		[serverService publish];
-		
-        //		// You can optionally add TXT record stuff
-        //		
-        //		NSMutableDictionary *txtDict = [NSMutableDictionary dictionaryWithCapacity:2];
-        //		
-        //		[txtDict setObject:@"moo" forKey:@"cow"];
-        //		[txtDict setObject:@"quack" forKey:@"duck"];
-        //		
-        //		NSData *txtData = [NSNetService dataFromTXTRecordDictionary:txtDict];
-        //		[serverService setTXTRecordData:txtData];
 	}
 	else
 	{
@@ -96,7 +90,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 	[netServiceBrowser setDelegate:self];
 	[netServiceBrowser searchForServicesOfType:kTBZAppIdentifier inDomain:@"local."];
     
-    netServicesFound = [NSMutableDictionary dictionary];
+    netServicesResolving = [[NSMutableSet alloc] init];
     
     return YES;
 }
@@ -113,17 +107,26 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     return YES;
 }
 
-- (void)sendData:(NSData*)messageData
+- (void)sendData:(NSData*)messageData to:(NSArray*)arrayOfServiceNames
 {
     // Append our end-of-message bytes
     NSMutableData* data = [messageData mutableCopy];
     [data appendData:EOFData];
     
-    // Send to all sockets we have
-    for (GCDAsyncSocket* socket in connectedSockets)
+    // Cache this for any later repeats
+    [self setLastData:data];
+    
+    for (NSString* serviceName in arrayOfServiceNames)
     {
+        GCDAsyncSocket* socket = [connectedSockets objectForKey:serviceName];
         [socket writeData:data withTimeout:-1 tag:0];
     }
+    
+}
+
+- (void)sendData:(NSData*)messageData
+{
+    [self sendData:messageData to:[connectedSockets allKeys]];
 }
 
 - (NSString*)name
@@ -156,11 +159,11 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(UInt16)port
 {
-	DDLogInfo(@"Socket:DidConnectToHost: %@ Port: %hu", host, port);
-	
-    // don't need to add - we build our list from incoming initiated only.
+    // These are sockets we established here
     
-#if !TARGET_IPHONE_SIMULATOR
+	DDLogInfo(@"Socket:DidConnectToHost: %@ Port: %hu", host, port);
+    
+    #if !TARGET_IPHONE_SIMULATOR
     {
         // Backgrounding doesn't seem to be supported on the simulator yet
         
@@ -171,20 +174,29 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
                 DDLogWarn(@"Enabling backgrounding failed!");
         }];
     }
-#endif
+    #endif
     
-    // FIXME: should only need this on incoming sockets we retain?
     [sock readDataToData:EOFData withTimeout:-1.0 tag:0];
 }
 
 - (void)socket:(GCDAsyncSocket *)sock didAcceptNewSocket:(GCDAsyncSocket *)newSocket
 {
+    // These are incoming sockets from elsewhere
+    
 	DDLogInfo(@"Accepted new socket from %@:%hu", [newSocket connectedHost], [newSocket connectedPort]);
 	
-	// The newSocket automatically inherits its delegate & delegateQueue from its parent.
-	
-    // check for existing connection to that name (not address?) and add if not found, and disconnect if found?
-	[connectedSockets addObject:newSocket];
+    #if !TARGET_IPHONE_SIMULATOR
+    {
+        // Backgrounding doesn't seem to be supported on the simulator yet
+        
+        [newSocket performBlock:^{
+            if ([sock enableBackgroundingOnSocket])
+                DDLogInfo(@"Enabled backgrounding on socket");
+            else
+                DDLogWarn(@"Enabling backgrounding failed!");
+        }];
+    }
+    #endif
     
     [newSocket readDataToData:EOFData withTimeout:-1.0 tag:0];
 }
@@ -194,9 +206,20 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 {
     DDLogInfo(@"Socket:DidDisconnect: %@ withError: %@", sock, err);
     
-	[connectedSockets removeObject:sock];
-    
-    // TODO: establish the netservice it came from and try any remaining addresses
+    [connectedSockets enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        if ([obj isEqual:sock])
+        {
+            [connectedSockets removeObjectForKey:key];
+            
+            DDLogInfo(@"Sending peerToPeerConnectionLost: %@", key);
+            if ([delegate respondsToSelector:@selector(peerToPeerConnectionLost:)])
+            {
+                [delegate peerToPeerConnectionLost:key];
+            }
+            
+            *stop = YES;
+        }
+    }];
 }
 
 #pragma mark NetService Client
@@ -212,21 +235,24 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 {
 	DDLogVerbose(@"DidFindService: %@", [netService name]);
 	
+    // Ignore ourselves
     if ([[netService name] isEqual:[serverService name]])
     {
         DDLogVerbose(@"Ignoring own service");
     }
+    // Ignore a service we're already connected to
+    else if ([[connectedSockets allKeys] containsObject:[netService name]])
+    {
+        DDLogVerbose(@"Ignoring %@ as already connected", [netService name]);
+    }
+    // Continue the process...
     else
     {
         [netService setDelegate:self];
         [netService resolveWithTimeout:5.0];
         
-        NSMutableDictionary* serviceInfo = [NSMutableDictionary dictionaryWithCapacity:4];
-        [serviceInfo setObject:netService forKey:@"service"];
-        [serviceInfo setObject:[NSNumber numberWithBool:NO] forKey:@"connected"];
-        [serviceInfo setObject:[NSNumber numberWithBool:NO] forKey:@"resolved"];
-        
-        [netServicesFound setObject:serviceInfo forKey:[netService name]];
+        // ARC dictates we need to keep a reference to this while it resolves
+        [netServicesResolving addObject:netService];
     }
 }
 
@@ -250,66 +276,62 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 - (void)netServiceDidResolveAddress:(NSNetService *)netService
 {
 	DDLogInfo(@"DidResolve: %@", [netService addresses]);
-	
-    NSMutableDictionary* serviceInfo = [netServicesFound objectForKey:[netService name]];
     
-    [serviceInfo setObject:[NSNumber numberWithBool:YES] forKey:@"resolved"];
-    [serviceInfo setObject:[[netService addresses] mutableCopy] forKey:@"untriedAddresses"];
-    
-    [self connectToNextAddressForServiceName:[netService name]];
-}
-
-- (void)connectToNextAddressForServiceName:(NSString*)serviceName
-{
-	BOOL done = NO;
-    
-    GCDAsyncSocket* asyncSocket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
-    
-    NSMutableArray* serverAddresses = [[netServicesFound objectForKey:serviceName] objectForKey:@"untriedAddresses"];
-    
-	while (!done && ([serverAddresses count] > 0))
-	{
-		NSData *addr;
-		
-		// Note: The serverAddresses array probably contains both IPv4 and IPv6 addresses.
-		// 
-		// If your server is also using GCDAsyncSocket then you don't have to worry about it,
-		// as the socket automatically handles both protocols for you transparently.
-		
-		if (YES) // Iterate forwards
-		{
-			addr = [serverAddresses objectAtIndex:0];
-			[serverAddresses removeObjectAtIndex:0];
-		}
-		else // Iterate backwards
-		{
-			addr = [serverAddresses lastObject];
-			[serverAddresses removeLastObject];
-		}
-		
-		DDLogVerbose(@"Attempting connection to %@", addr);
-		
-		NSError *err = nil;
-		if ([asyncSocket connectToAddress:addr error:&err])
-		{
-			done = YES;
+    // Ignore a service we're already connected to
+    if ([[connectedSockets allKeys] containsObject:[netService name]])
+    {
+        DDLogVerbose(@"Ignoring %@ as already connected", [netService name]);
+    }
+    else
+    {
+        BOOL done = NO;
+        
+        GCDAsyncSocket* socket = [[GCDAsyncSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
+        
+        NSMutableArray* serverAddresses = [[netService addresses] mutableCopy];
+        
+        while (!done && ([serverAddresses count] > 0))
+        {
+            NSData *addr;
             
-            if ([delegate respondsToSelector:@selector(peerToPeerConnectionMade:)])
+            // Note: The serverAddresses array probably contains both IPv4 and IPv6 addresses.
+            // 
+            // If your server is also using GCDAsyncSocket then you don't have to worry about it,
+            // as the socket automatically handles both protocols for you transparently.
+            
+            addr = [serverAddresses objectAtIndex:0];
+            [serverAddresses removeObjectAtIndex:0];
+            
+            DDLogVerbose(@"Attempting connection to %@", addr);
+            
+            NSError *err = nil;
+            if ([socket connectToAddress:addr error:&err])
             {
-                [delegate peerToPeerConnectionMade:serviceName];
+                done = YES;
+                
+                // TASK: Success! Add connected socket to our list and notify our delegate
+                
+                [connectedSockets setObject:socket forKey:[netService name]];
+                
+                if ([delegate respondsToSelector:@selector(peerToPeerConnectionMade:)])
+                {
+                    [delegate peerToPeerConnectionMade:[netService name]];
+                }
             }
-		}
-		else
-		{
-			DDLogWarn(@"Unable to connect: %@", err);
-		}
-	}
-	
-	if (!done)
-	{
-		DDLogWarn(@"Unable to connect to any resolved address");
-        asyncSocket = nil;
-	}
+            else
+            {
+                DDLogWarn(@"Unable to connect: %@", err);
+            }
+        }
+        
+        if (!done)
+        {
+            DDLogWarn(@"Unable to connect to any resolved address");
+            socket = nil;
+        }
+    }
+    
+    [netServicesResolving removeObject:netService];
 }
 
 #pragma mark NetService Server

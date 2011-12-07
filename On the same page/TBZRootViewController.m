@@ -2,8 +2,10 @@
 //  TBZRootViewController.m
 //  On the same page
 //
-//  Created by TBZ.PhD on 19/10/2011.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Created by Toby Harris on 19/10/2011.
+//  Copyright (c) 2011 Toby Harris. All rights reserved.
+//
+//  Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 //
 
 #import "TBZRootViewController.h"
@@ -37,8 +39,6 @@
     CGRect pageSpreadRect;
     CGRect pageViewRect;
     CGRectDivide(self.view.bounds, &pageSpreadRect, &pageViewRect, 20, CGRectMaxYEdge);
-    
-    NSLog(@"x: %f, y: %f, w:%f, h:%f", pageSpreadRect.origin.x, pageSpreadRect.origin.y, pageSpreadRect.size.width, pageSpreadRect.size.height);
     
     // TASK: Setup Page Spread
     

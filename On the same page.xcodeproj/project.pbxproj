@@ -43,9 +43,9 @@
 		A63831A61461C78000908537 /* pageIcon-Normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pageIcon-Normal.png"; sourceTree = "<group>"; };
 		A63831A71461C78000908537 /* pageIcon-Viewer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pageIcon-Viewer.png"; sourceTree = "<group>"; };
 		A663B9841475F9CE00E2D5E0 /* slideImagesNotes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = slideImagesNotes; sourceTree = "<group>"; };
-		A682320A146C181000DCBEA7 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "../Default-Landscape~ipad.png"; sourceTree = "<group>"; };
-		A682320D146C182300DCBEA7 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait~ipad.png"; path = "../Default-Portrait~ipad.png"; sourceTree = "<group>"; };
-		A682320F146C18A300DCBEA7 /* mat-72px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "mat-72px.png"; path = "../mat-72px.png"; sourceTree = "<group>"; };
+		A682320A146C181000DCBEA7 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "../Working files/Default-Landscape~ipad.png"; sourceTree = "<group>"; };
+		A682320D146C182300DCBEA7 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait~ipad.png"; path = "../Working files/Default-Portrait~ipad.png"; sourceTree = "<group>"; };
+		A682320F146C18A300DCBEA7 /* mat-72px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "mat-72px.png"; path = "../Working files/mat-72px.png"; sourceTree = "<group>"; };
 		A6977BF0144F470500907B69 /* On the same page.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "On the same page.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6977BF4144F470500907B69 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A6977BF6144F470500907B69 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
